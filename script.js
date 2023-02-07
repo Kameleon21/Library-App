@@ -19,4 +19,4 @@ function addBookToLib(value) {
 
 addBookToLib(theHobbit);
 addBookToLib(theHollows);
-addBookToLib(theHobbit);
+addBookToLib(theBirth);

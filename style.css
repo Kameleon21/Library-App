@@ -1,0 +1,23 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+.container {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+header {
+  grid-column: 2/5;
+}
+
+aside {
+  grid-row: 1/4;
+}
+
+main {
+  grid-area: 2 / 2 / 4 / 5;
+}
