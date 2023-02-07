@@ -18,11 +18,13 @@ aside {
   grid-row: 1/4;
 }
 
+/* main books */
 main {
   grid-area: 2 / 2 / 4 / 5;
 }
 
 #content {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-template-rows: repeat((auto-fit, minmax(300, 1fr)));
@@ -33,8 +35,43 @@ main {
   width: 300px;
   height: 200px;
   background-color: grey;
+  border-radius: 5px;
 }
 
+/* modal style */
+.addModal {
+  visibility: hidden;
+  position: absolute;
+  place-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  height: 300px;
+  background-color: lightgrey;
+  border-radius: 5px;
+}
+
+.addModal > h3 {
+  margin-bottom: 10px;
+}
+
+.addModal form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  width: 150px;
+}
+
+.newBook {
+  padding: 5px;
+  border-radius: 5px;
+  border-color: lightgrey;
+}
+/* Responsiveness */
 @media screen and (max-width: 700px) {
   .book {
     width: 200px;
