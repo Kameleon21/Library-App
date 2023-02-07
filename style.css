@@ -21,3 +21,24 @@ aside {
 main {
   grid-area: 2 / 2 / 4 / 5;
 }
+
+#content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-rows: repeat((auto-fit, minmax(300, 1fr)));
+  row-gap: 10px;
+}
+
+.book {
+  width: 300px;
+  height: 200px;
+  background-color: grey;
+}
+
+@media screen and (max-width: 700px) {
+  .book {
+    width: 200px;
+    height: 150px;
+    place-self: center;
+  }
+}

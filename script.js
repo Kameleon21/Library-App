@@ -1,3 +1,5 @@
+const addBtn = document.getElementById("add");
+
 // constructor
 function Book(title, author, numPages, read) {
   this.title = title;
@@ -20,3 +22,10 @@ function addBookToLib(value) {
 addBookToLib(theHobbit);
 addBookToLib(theHollows);
 addBookToLib(theBirth);
+
+// function to call the constructor functions and for the user to fill out the fields
+addBtn.addEventListener("click", () => {
+  let newBook = prompt("Enter the name of the Book");
+  console.log(newBook);
+  addBookToLib(newBook);
+});
