@@ -36,6 +36,9 @@ main {
   height: 200px;
   background-color: grey;
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* modal style */
