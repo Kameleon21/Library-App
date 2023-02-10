@@ -7,6 +7,7 @@ const pageNumber = document.getElementById("number");
 const form = document.getElementById("newForm");
 const newBookBtn = document.getElementById("bookBtn");
 const bookContainer = document.getElementById("content");
+// const ifRead = document.querySelector('input[name=read]:checked').value;
 
 // constructor
 function Book(title, author, numPages, read) {
@@ -30,17 +31,13 @@ const theBirth = new Book("The Birth", "J.R.R Tolkien", 650, false);
 // values assigned for to create an object
 //functions to add books to array
 function addBookToLib() {
-  let title = prompt("Enter a title of a book");
-  let author = prompt("Enter the author");
-  let numberPage = parseInt(prompt("Enter number of pages"));
-  let isRead = prompt("Did you read the book?");
+  let title = Name.value;
+  let author = authorName.value;
+  let numberPage = pageNumber.value;
+  let isRead = document.querySelector("input[name=read]:checked").value;
   const word = new Book(title, author, numberPage, isRead);
   myLibrary.push(word);
 }
-
-// addBookToLib(theHobbit);
-// addBookToLib(theHollows);
-// addBookToLib(theBirth);
 
 // functions to loop over the array and display the details on a div
 let count = 0;
@@ -49,32 +46,60 @@ const loopOver = () => {
     // to prevent duplicate books being displayed
     if (count <= i) {
       i + count;
-      const newCard = document.createElement("div");
+      let newCard = document.createElement("div");
       newCard.classList.add("book");
-      newCard.innerText = myLibrary[i].info();
+      newCard.innerHTML = `<h4>Title</h4>
+      <p>${myLibrary[i].title}</p>
+      <h4>Author</h4>
+      <p>${myLibrary[i].author}</p>
+      <h4>Number of pages</h4>
+      <p>${myLibrary[i].numPages}</p>
+      <h4>Have you read this book?</h4>
+      <p>${myLibrary[i].read}</p>`;
       bookContainer.append(newCard);
       count++;
+      if (myLibrary[i].read === "Yes") {
+        newCard.classList.add("read");
+      } else if (myLibrary[i].read === "No") {
+        newCard.classList.add("unread");
+      }
     }
   }
+};
+
+// clear the modal box
+const clearModal = () => {
+  Name.value = " ";
+  authorName.value = " ";
+  pageNumber.value = 0;
+  document.querySelector('input[name="read"]:checked').checked = false;
 };
 
 // function to call the constructor functions and for the user to fill out the fields
 addBtn.addEventListener("click", () => {
   modal.style.visibility = "visible";
+  Name.focus();
 });
 
 // cancel the add of new book process and the fields
 cancelBtn.addEventListener("click", () => {
   modal.style.visibility = "hidden";
-  Name.value = " ";
-  authorName.value = " ";
-  pageNumber.value = 0;
-  document.querySelector('input[name="read"]:checked').checked = false;
+  clearModal();
 });
 
 // Run the method to add new object and pass it into the array
 newBookBtn.addEventListener("click", () => {
   addBookToLib();
   loopOver();
+  clearModal();
   modal.style.visibility = "hidden";
 });
+
+// // Choose if book is read or not and
+// const chooseIfRead = () {
+//   myLibrary.forEach(item => {
+//     if(item.isRead = "yes" || "Yes") {
+
+//     }
+//   })
+// }

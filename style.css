@@ -1,6 +1,19 @@
+:root {
+  --clr1: #737373;
+  --cl2: ;
+}
+
 * {
   padding: 0px;
   margin: 0px;
+}
+
+body {
+  background-image: url(./images/susan-q-yin-2JIvboGLeho-unsplash.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 .container {
@@ -12,18 +25,19 @@
 
 header {
   grid-column: 2/5;
+  background-color: var(--clr1);
+  opacity: 0.5;
 }
 
 aside {
-  grid-row: 1/4;
+  grid-row: 1/2;
+  background-color: var(--clr1);
+  opacity: 0.5;
 }
 
 /* main books */
 main {
-  grid-area: 2 / 2 / 4 / 5;
-}
-
-#content {
+  grid-area: 2 / 1 / 4 / 5;
   position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -32,6 +46,7 @@ main {
 }
 
 .book {
+  place-self: center;
   width: 300px;
   height: 200px;
   background-color: grey;
@@ -74,11 +89,39 @@ main {
   border-radius: 5px;
   border-color: lightgrey;
 }
+
+/* if read */
+.read {
+  border-left: 8px solid blue;
+}
+
+/* if not read */
+
+.unread {
+  border-left: 8px solid red;
+}
+
 /* Responsiveness */
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 500px) {
   .book {
     width: 200px;
     height: 150px;
     place-self: center;
+  }
+
+  aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+  }
+
+  .book {
+    padding: 0.8rem;
+  }
+
+  .book h4 {
+    font-size: 1.1rem;
   }
 }
