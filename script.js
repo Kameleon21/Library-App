@@ -24,11 +24,6 @@ Book.prototype.info = function () {
 // Lib array
 let myLibrary = [];
 
-const theHobbit = new Book("The Hobbit", "J.R.R Tolkien", 950, false);
-const theHollows = new Book("The Hallows", "J.R.R Tolkien", 750, true);
-const theBirth = new Book("The Birth", "J.R.R Tolkien", 650, false);
-
-// values assigned for to create an object
 //functions to add books to array
 function addBookToLib() {
   let title = Name.value;
@@ -47,6 +42,7 @@ const loopOver = () => {
     if (count <= i) {
       i + count;
       let newCard = document.createElement("div");
+      newCard.dataset.bookNumber = i;
       newCard.classList.add("book");
       newCard.innerHTML = `<h4>Title</h4>
       <p>${myLibrary[i].title}</p>
@@ -55,7 +51,12 @@ const loopOver = () => {
       <h4>Number of pages</h4>
       <p>${myLibrary[i].numPages}</p>
       <h4>Have you read this book?</h4>
-      <p>${myLibrary[i].read}</p>`;
+      <p>${myLibrary[i].read}</p> `;
+      let delBtn = document.createElement("button");
+      delBtn.innerText = "Remove Book";
+      delBtn.dataset.bookNumber = i;
+      delBtn.classList.add("numberBtn");
+      newCard.appendChild(delBtn);
       bookContainer.append(newCard);
       count++;
       if (myLibrary[i].read === "Yes") {
@@ -94,12 +95,3 @@ newBookBtn.addEventListener("click", () => {
   clearModal();
   modal.style.visibility = "hidden";
 });
-
-// // Choose if book is read or not and
-// const chooseIfRead = () {
-//   myLibrary.forEach(item => {
-//     if(item.isRead = "yes" || "Yes") {
-
-//     }
-//   })
-// }
