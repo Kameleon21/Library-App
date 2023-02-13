@@ -7,7 +7,7 @@ const pageNumber = document.getElementById("number");
 const form = document.getElementById("newForm");
 const newBookBtn = document.getElementById("bookBtn");
 const bookContainer = document.getElementById("content");
-// const ifRead = document.querySelector('input[name=read]:checked').value;
+const removeAll = document.getElementById("removeAll");
 
 // constructor
 function Book(title, author, numPages, read) {
@@ -38,35 +38,64 @@ function addBookToLib() {
 let count = 0;
 const loopOver = () => {
   for (let i = 0; i < myLibrary.length; i++) {
-    // to prevent duplicate books being displayed
     if (count <= i) {
       i + count;
       let newCard = document.createElement("div");
-      newCard.dataset.bookNumber = i;
-      newCard.classList.add("book");
-      newCard.innerHTML = `<h4>Title</h4>
-      <p>${myLibrary[i].title}</p>
-      <h4>Author</h4>
-      <p>${myLibrary[i].author}</p>
-      <h4>Number of pages</h4>
-      <p>${myLibrary[i].numPages}</p>
-      <h4>Have you read this book?</h4>
-      <p>${myLibrary[i].read}</p> `;
+      createBook(newCard, i);
       let delBtn = document.createElement("button");
-      delBtn.innerText = "Remove Book";
-      delBtn.dataset.bookNumber = i;
-      delBtn.classList.add("numberBtn");
+      createDelBtn(delBtn, i);
       newCard.appendChild(delBtn);
-      bookContainer.append(newCard);
+      bookContainer.appendChild(newCard);
       count++;
-      if (myLibrary[i].read === "Yes") {
-        newCard.classList.add("read");
-      } else if (myLibrary[i].read === "No") {
-        newCard.classList.add("unread");
-      }
+      changeClr(newCard, i);
     }
   }
 };
+
+// Change books color
+function changeClr(item, valueAt) {
+  if (myLibrary[valueAt].read === "Yes") {
+    item.classList.add("read");
+  } else if (myLibrary[valueAt].read === "No") {
+    item.classList.add("unread");
+  }
+}
+
+// create each book
+function createBook(item, valueAt) {
+  item.dataset.bookNumber = valueAt;
+  item.classList.add("book");
+  item.innerHTML = `<h4>Title</h4>
+      <p>${myLibrary[valueAt].title}</p>
+      <h4>Author</h4>
+      <p>${myLibrary[valueAt].author}</p>
+      <h4>Number of pages</h4>
+      <p>${myLibrary[valueAt].numPages}</p>
+      <h4>Have you read this book?</h4>
+      <p>${myLibrary[valueAt].read}</p> `;
+}
+
+// create delete btn
+function createDelBtn(btnName, valueAt) {
+  btnName.innerText = "Remove Book";
+  btnName.dataset.bookNumber = valueAt;
+  btnName.classList.add("numberBtn");
+}
+
+// // delete a book function
+// function deleteBook(allBooks, allBtn) {
+//   allBooks.forEach((book1) => {
+//     allBtn.forEach((btn1) => {
+//       btn1.addEventListener("click", () => {
+//         let dataB1 = book1.dataset.bookNumber;
+//         let dataBT1 = btn1.dataset.bookNumber;
+//         if (dataB1 === dataBT1) {
+//           myLibrary.splice(dataB1, 1);
+//         }
+//       });
+//     });
+//   });
+// }
 
 // clear the modal box
 const clearModal = () => {
@@ -82,7 +111,7 @@ addBtn.addEventListener("click", () => {
   Name.focus();
 });
 
-// cancel the add of new book process and the fields
+// hide modal and call clear modal function
 cancelBtn.addEventListener("click", () => {
   modal.style.visibility = "hidden";
   clearModal();
