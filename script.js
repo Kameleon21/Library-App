@@ -4,10 +4,8 @@ const cancelBtn = document.getElementById("cancel");
 const Name = document.getElementById("Name");
 const authorName = document.getElementById("author");
 const pageNumber = document.getElementById("number");
-const form = document.getElementById("newForm");
 const newBookBtn = document.getElementById("bookBtn");
 const bookContainer = document.getElementById("content");
-const removeAll = document.getElementById("removeAll");
 
 // constructor
 function Book(title, author, numPages, read) {
@@ -50,22 +48,7 @@ const loopOver = () => {
       changeClr(newCard, i);
       let allBooks = document.querySelectorAll(".book");
       let allDelBtn = document.querySelectorAll(".numberBtn");
-      allBooks.forEach((book1) => {
-        allDelBtn.forEach((btn1) => {
-          btn1.addEventListener("click", () => {
-            let dataB1 = book1.dataset.bookNumber;
-            let dataBT1 = btn1.dataset.bookNumber;
-            if (dataB1 === dataBT1) {
-              let selectedDiv = document.querySelector(
-                `[data-book-number="${dataB1}"]`
-              );
-              myLibrary.splice(dataB1, 1);
-              bookContainer.removeChild(selectedDiv);
-              count--;
-            }
-          });
-        });
-      });
+      deleteBook(allBooks, allDelBtn);
     }
   }
 };
@@ -108,7 +91,12 @@ function deleteBook(allBooks, allBtn) {
         let dataB1 = book1.dataset.bookNumber;
         let dataBT1 = btn1.dataset.bookNumber;
         if (dataB1 === dataBT1) {
+          let selectedDiv = document.querySelector(
+            `[data-book-number="${dataB1}"]`
+          );
           myLibrary.splice(dataB1, 1);
+          bookContainer.removeChild(selectedDiv);
+          count--;
         }
       });
     });
