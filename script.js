@@ -48,6 +48,24 @@ const loopOver = () => {
       bookContainer.appendChild(newCard);
       count++;
       changeClr(newCard, i);
+      let allBooks = document.querySelectorAll(".book");
+      let allDelBtn = document.querySelectorAll(".numberBtn");
+      allBooks.forEach((book1) => {
+        allDelBtn.forEach((btn1) => {
+          btn1.addEventListener("click", () => {
+            let dataB1 = book1.dataset.bookNumber;
+            let dataBT1 = btn1.dataset.bookNumber;
+            if (dataB1 === dataBT1) {
+              let selectedDiv = document.querySelector(
+                `[data-book-number="${dataB1}"]`
+              );
+              myLibrary.splice(dataB1, 1);
+              bookContainer.removeChild(selectedDiv);
+              count--;
+            }
+          });
+        });
+      });
     }
   }
 };
@@ -83,19 +101,19 @@ function createDelBtn(btnName, valueAt) {
 }
 
 // // delete a book function
-// function deleteBook(allBooks, allBtn) {
-//   allBooks.forEach((book1) => {
-//     allBtn.forEach((btn1) => {
-//       btn1.addEventListener("click", () => {
-//         let dataB1 = book1.dataset.bookNumber;
-//         let dataBT1 = btn1.dataset.bookNumber;
-//         if (dataB1 === dataBT1) {
-//           myLibrary.splice(dataB1, 1);
-//         }
-//       });
-//     });
-//   });
-// }
+function deleteBook(allBooks, allBtn) {
+  allBooks.forEach((book1) => {
+    allBtn.forEach((btn1) => {
+      btn1.addEventListener("click", () => {
+        let dataB1 = book1.dataset.bookNumber;
+        let dataBT1 = btn1.dataset.bookNumber;
+        if (dataB1 === dataBT1) {
+          myLibrary.splice(dataB1, 1);
+        }
+      });
+    });
+  });
+}
 
 // clear the modal box
 const clearModal = () => {
