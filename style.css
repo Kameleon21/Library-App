@@ -49,6 +49,7 @@ main {
   background-color: grey;
   border-radius: 5px;
   display: flex;
+  padding: 1rem;
   flex-direction: column;
   justify-content: center;
 }
@@ -98,7 +99,8 @@ main {
   border-left: 8px solid red;
 }
 
-.numberBtn {
+/* delete btn and is Read button */
+.numberBtn,.readClass {
   width: 6rem;
 }
 

@@ -15,8 +15,12 @@ function Book(title, author, numPages, read) {
   this.read = read;
 }
 
-Book.prototype.info = function () {
-  return `${this.title} by ${this.author}, ${this.numPages} pages, Read? ${this.read}`;
+Book.prototype.changeRead = function (valueAt) {
+  if (myLibrary[valueAt].read === "Yes") {
+    myLibrary[valueAt].read = "No";
+  } else if (myLibrary[valueAt].read === "No") {
+    myLibrary[valueAt].read = "Yes";
+  }
 };
 
 // Lib array
@@ -27,8 +31,8 @@ function addBookToLib() {
   let title = Name.value;
   let author = authorName.value;
   let numberPage = pageNumber.value;
-  let isRead = document.querySelector("input[name=read]:checked").value;
-  const word = new Book(title, author, numberPage, isRead);
+  let read = document.querySelector("input[name=read]:checked").value;
+  const word = new Book(title, author, numberPage, read);
   myLibrary.push(word);
 }
 
@@ -42,13 +46,15 @@ const loopOver = () => {
       createBook(newCard, i);
       let delBtn = document.createElement("button");
       createDelBtn(delBtn, i);
-      newCard.appendChild(delBtn);
+      let readBtn = document.createElement("button");
+      createReadBtn(readBtn);
+      newCard.append(delBtn, readBtn);
       bookContainer.appendChild(newCard);
       count++;
       changeClr(newCard, i);
-      let allBooks = document.querySelectorAll(".book");
       let allDelBtn = document.querySelectorAll(".numberBtn");
-      deleteBook(allBooks, allDelBtn);
+      deleteBook(allDelBtn, newCard);
+      changeReadStatus(readBtn, i, newCard, delBtn);
     }
   }
 };
@@ -83,22 +89,49 @@ function createDelBtn(btnName, valueAt) {
   btnName.classList.add("numberBtn");
 }
 
-// // delete a book function
-function deleteBook(allBooks, allBtn) {
-  allBooks.forEach((book1) => {
-    allBtn.forEach((btn1) => {
-      btn1.addEventListener("click", () => {
-        let dataB1 = book1.dataset.bookNumber;
-        let dataBT1 = btn1.dataset.bookNumber;
-        if (dataB1 === dataBT1) {
-          let selectedDiv = document.querySelector(
-            `[data-book-number="${dataB1}"]`
-          );
-          myLibrary.splice(dataB1, 1);
-          bookContainer.removeChild(selectedDiv);
-          count--;
-        }
-      });
+// creates the change status button
+function createReadBtn(readBtn) {
+  readBtn.innerText = "Change Read Status";
+  readBtn.classList.add("readClass");
+}
+
+// Change read status
+function changeReadStatus(readBtn, valueAt, book, delBtn) {
+  readBtn.addEventListener("click", () => {
+    let bookIndex = book.dataset.bookNumber;
+    let btnIndex = delBtn.dataset.bookNumber;
+    if (bookIndex === btnIndex) {
+      myLibrary[bookIndex].changeRead(valueAt);
+      createBook(book, valueAt);
+      createDelBtn(delBtn, valueAt);
+      createReadBtn(readBtn);
+      if (book.classList.contains("read")) {
+        book.classList.remove("read");
+        book.classList.add("unread");
+      } else if (book.classList.contains("unread")) {
+        book.classList.remove("unread");
+        book.classList.add("read");
+      }
+      book.append(delBtn, readBtn);
+      bookContainer.append(book);
+    }
+  });
+}
+
+// delete a book function
+function deleteBook(allBtn, book) {
+  allBtn.forEach((btn1) => {
+    btn1.addEventListener("click", () => {
+      let dataB1 = book.dataset.bookNumber;
+      let dataBT1 = btn1.dataset.bookNumber;
+      if (dataB1 === dataBT1) {
+        let selectedDiv = document.querySelector(
+          `[data-book-number="${dataB1}"]`
+        );
+        myLibrary.splice(dataB1, 1);
+        bookContainer.removeChild(selectedDiv);
+        count--;
+      }
     });
   });
 }
@@ -111,7 +144,7 @@ const clearModal = () => {
   document.querySelector('input[name="read"]:checked').checked = false;
 };
 
-// function to call the constructor functions and for the user to fill out the fields
+// display the modal
 addBtn.addEventListener("click", () => {
   modal.style.visibility = "visible";
   Name.focus();
@@ -124,7 +157,7 @@ cancelBtn.addEventListener("click", () => {
 });
 
 // Run the method to add new object and pass it into the array
-newBookBtn.addEventListener("click", () => {
+newBookBtn.addEventListener("click", (e) => {
   addBookToLib();
   loopOver();
   clearModal();
