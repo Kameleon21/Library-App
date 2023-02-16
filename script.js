@@ -6,58 +6,39 @@ const authorName = document.getElementById("author");
 const pageNumber = document.getElementById("number");
 const newBookBtn = document.getElementById("bookBtn");
 const bookContainer = document.getElementById("content");
+let count = 0;
+let countToCompare;
 
 // constructor
-function Book(title, author, numPages, read) {
-  this.title = title;
-  this.author = author;
-  this.numPages = numPages;
-  this.read = read;
+class Book {
+  constructor(title, author, numPages, read) {
+    this.title = title;
+    this.author = author;
+    this.numPages = numPages;
+    this.read = read;
+  }
+
+  changeRead(valueAt) {
+    if (myLibrary[valueAt].read === "Yes") {
+      myLibrary[valueAt].read = "No";
+    } else if (myLibrary[valueAt].read === "No") {
+      myLibrary[valueAt].read = "Yes";
+    }
+  }
 }
 
-Book.prototype.changeRead = function (valueAt) {
-  if (myLibrary[valueAt].read === "Yes") {
-    myLibrary[valueAt].read = "No";
-  } else if (myLibrary[valueAt].read === "No") {
-    myLibrary[valueAt].read = "Yes";
-  }
-};
-
 // Lib array
-let myLibrary = [];
+const myLibrary = [];
 
-//functions to add books to array
+// functions to add books to array
 function addBookToLib() {
-  let title = Name.value;
-  let author = authorName.value;
-  let numberPage = pageNumber.value;
-  let read = document.querySelector("input[name=read]:checked").value;
+  const title = Name.value;
+  const author = authorName.value;
+  const numberPage = pageNumber.value;
+  const read = document.querySelector("input[name=read]:checked").value;
   const word = new Book(title, author, numberPage, read);
   myLibrary.push(word);
 }
-
-// functions to loop over the array and display the details on a div
-let count = 0;
-const loopOver = () => {
-  for (let i = 0; i < myLibrary.length; i++) {
-    if (count <= i) {
-      i + count;
-      let newCard = document.createElement("div");
-      createBook(newCard, i);
-      let delBtn = document.createElement("button");
-      createDelBtn(delBtn, i);
-      let readBtn = document.createElement("button");
-      createReadBtn(readBtn);
-      newCard.append(delBtn, readBtn);
-      bookContainer.appendChild(newCard);
-      count++;
-      changeClr(newCard, i);
-      let allDelBtn = document.querySelectorAll(".numberBtn");
-      deleteBook(allDelBtn, newCard);
-      changeReadStatus(readBtn, i, newCard, delBtn);
-    }
-  }
-};
 
 // Change books color
 function changeClr(item, valueAt) {
@@ -79,7 +60,7 @@ function createBook(item, valueAt) {
       <h4>Number of pages</h4>
       <p>${myLibrary[valueAt].numPages}</p>
       <h4>Have you read this book?</h4>
-      <p>${myLibrary[valueAt].read}</p> `;
+      <button class="haveRead" data-btn=${valueAt}>${myLibrary[valueAt].read}</button> `;
 }
 
 // create delete btn
@@ -89,52 +70,73 @@ function createDelBtn(btnName, valueAt) {
   btnName.classList.add("numberBtn");
 }
 
-// creates the change status button
-function createReadBtn(readBtn) {
-  readBtn.innerText = "Change Read Status";
-  readBtn.classList.add("readClass");
-}
-
 // Change read status
-function changeReadStatus(readBtn, valueAt, book, delBtn) {
-  readBtn.addEventListener("click", () => {
-    let bookIndex = book.dataset.bookNumber;
-    let btnIndex = delBtn.dataset.bookNumber;
-    if (bookIndex === btnIndex) {
-      myLibrary[bookIndex].changeRead(valueAt);
-      createBook(book, valueAt);
-      createDelBtn(delBtn, valueAt);
-      createReadBtn(readBtn);
-      if (book.classList.contains("read")) {
-        book.classList.remove("read");
-        book.classList.add("unread");
-      } else if (book.classList.contains("unread")) {
-        book.classList.remove("unread");
-        book.classList.add("read");
+function changeReadStatus(book, valueAt) {
+  const changeBtn = document.querySelector(`[data-btn="${valueAt}"]`);
+  changeBtn.addEventListener("click", () => {
+    const bookValue = book.dataset.bookNumber;
+    const changeBtnValue = changeBtn.dataset.btn;
+    const bookClass = document.querySelector(
+      `[data-book-number = "${valueAt}"]`
+    );
+    if (bookValue === changeBtnValue) {
+      myLibrary[valueAt].changeRead(valueAt);
+      changeBtn.innerText = `${myLibrary[valueAt].read}`;
+      if (bookClass.classList.contains("read")) {
+        bookClass.classList.remove("read");
+        bookClass.classList.add("unread");
+      } else if (bookClass.classList.contains("unread")) {
+        bookClass.classList.remove("unread");
+        bookClass.classList.add("read");
       }
-      book.append(delBtn, readBtn);
-      bookContainer.append(book);
     }
   });
+}
+
+// change value of book number data set
+function changeBookNumber() {
+  const changeDivs = document.querySelectorAll(`[data-book-number]`);
+  changeDivs.dataset.bookNumber = 0;
 }
 
 // delete a book function
 function deleteBook(allBtn, book) {
   allBtn.forEach((btn1) => {
     btn1.addEventListener("click", () => {
-      let dataB1 = book.dataset.bookNumber;
-      let dataBT1 = btn1.dataset.bookNumber;
+      const dataB1 = book.dataset.bookNumber;
+      const dataBT1 = btn1.dataset.bookNumber;
       if (dataB1 === dataBT1) {
-        let selectedDiv = document.querySelector(
+        const selectedDiv = document.querySelector(
           `[data-book-number="${dataB1}"]`
         );
         myLibrary.splice(dataB1, 1);
         bookContainer.removeChild(selectedDiv);
         count--;
+        changeBookNumber();
       }
     });
   });
 }
+
+// functions to loop over the array and display the details on a div
+const loopOver = () => {
+  for (let i = 0; i < myLibrary.length; i++) {
+    if (count <= i) {
+      i + count;
+      const newCard = document.createElement("div");
+      createBook(newCard, i);
+      const delBtn = document.createElement("button");
+      createDelBtn(delBtn, i);
+      newCard.appendChild(delBtn);
+      bookContainer.appendChild(newCard);
+      count++;
+      changeClr(newCard, i);
+      const allDelBtn = document.querySelectorAll(".numberBtn");
+      deleteBook(allDelBtn, newCard);
+      changeReadStatus(newCard, i);
+    }
+  }
+};
 
 // clear the modal box
 const clearModal = () => {
