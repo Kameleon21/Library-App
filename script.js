@@ -39,35 +39,45 @@ function addBookToLib() {
   myLibrary.push(word);
 }
 
+
 // create each book
-function createBook(valueAt) {
-  const bookCard = document.createElement("div");
-  bookCard.dataset.bookNumber = valueAt;
-  bookCard.classList.add("book");
-  bookCard.innerHTML = `<h4>Title</h4>
-      <p>${myLibrary[valueAt].title}</p>
-      <h4>Author</h4>
-      <p>${myLibrary[valueAt].author}</p>
-      <h4>Number of pages</h4>
-      <p>${myLibrary[valueAt].numPages}</p>
-      <h4>Have you read this book?</h4>
-      <button class="haveRead" data-btn=${valueAt}>${myLibrary[valueAt].read}</button>
-      <button data-book=${valueAt}>Delete Book</button>`;
-  if (myLibrary[valueAt].read === "Yes") {
-    bookCard.classList.add("read");
-  } else if (myLibrary[valueAt].read === "No") {
-    bookCard.classList.add("unread");
-  }
-  bookContainer.appendChild(bookCard);
+function createBook() {
+  bookContainer.textContent = "";
+  myLibrary.forEach((element) => {
+    // create the elements
+    let div = document.createElement("div");
+    let title = document.createElement("h2");
+    let author = document.createElement("p");
+    let pages = document.createElement("p");
+    let remove = document.createElement("button");
+    remove.addEventListener("click", removeBook);
+    // assign values to them
+    title.textContent = element.title;
+    author.textContent = element.author;
+    pages.textContent = element.numPages + " pages";
+    remove.textContent = "Delete";
+    // assigning dataset to remove button
+    remove.dataset.ID = myLibrary.indexOf(element);
+    remove.addEventListener("click", removeBook);
+    // add class to the book Cards
+    div.classList.add("book");
+    // Append to the books to cont
+    div.appendChild(title);
+    div.appendChild(author);
+    div.appendChild(pages);
+    div.appendChild(remove);
+    bookContainer.appendChild(div);
+  });
 }
-function displayBooks() {
-  for (let i = 0; i < myLibrary.length; i++) {
-    if (count <= i) {
-      console.log(myLibrary[i]);
-      createBook(i);
-      count++;
-    }
-  }
+// function displayBooks() {
+//   myLibrary.forEach((element) => {
+//     createBook(element);
+//   });
+// }
+
+function removeBook(element) {
+  myLibrary.splice(element.target.dataset.book, 1);
+  createBook();
 }
 
 // display whats in the array
@@ -96,7 +106,7 @@ cancelBtn.addEventListener("click", () => {
 // Run the method to add new object and pass it into the array
 newBookBtn.addEventListener("click", (e) => {
   addBookToLib();
-  displayBooks();
+  createBook();
   clearModal();
   modal.style.visibility = "hidden";
 });
