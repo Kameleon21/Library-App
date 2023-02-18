@@ -17,10 +17,10 @@ class Book {
   }
 
   changeRead(valueAt) {
-    if (myLibrary[valueAt].read === "Yes") {
-      myLibrary[valueAt].read = "No";
-    } else if (myLibrary[valueAt].read === "No") {
-      myLibrary[valueAt].read = "Yes";
+    if (myLibrary[valueAt].read === "Read") {
+      myLibrary[valueAt].read = "Unread";
+    } else if (myLibrary[valueAt].read === "Unread") {
+      myLibrary[valueAt].read = "Read";
     }
   }
 }
@@ -36,6 +36,26 @@ function addBookToLib() {
   const read = document.querySelector("input[name=read]:checked").value;
   const word = new Book(title, author, numberPage, read);
   myLibrary.push(word);
+}
+
+// add color to books if read or unread
+function changeClr(div, valueAt) {
+  if (myLibrary[valueAt].read === "Read") {
+    div.classList.add("read");
+  } else if (myLibrary[valueAt].read === "Unread") {
+    div.classList.add("unread");
+  }
+}
+
+// change book color if book status changes
+function ifRead(div) {
+  if (div.classList.contains("read")) {
+    div.classList.remove("read");
+    div.classList.add("unread");
+  } else if (div.classList.contains("unread")) {
+    div.classList.remove("unread");
+    div.classList.add("read");
+  }
 }
 
 // create each book
@@ -59,10 +79,12 @@ function createBook() {
     haveRead.dataset.bookRead = myLibrary.indexOf(element);
     remove.dataset.ID = myLibrary.indexOf(element);
     let valueAt = remove.dataset.ID;
+    // adding EventListeners to each book
     remove.addEventListener("click", removeBook);
     haveRead.addEventListener("click", () => {
       myLibrary[valueAt].changeRead(valueAt);
-      console.log(myLibrary[valueAt].read);
+      haveRead.textContent = myLibrary[valueAt].read;
+      ifRead(div);
     });
     // add class to the book Cards
     div.classList.add("book");
@@ -72,6 +94,8 @@ function createBook() {
     div.appendChild(pages);
     div.appendChild(haveRead);
     div.appendChild(remove);
+    // function to add color
+    changeClr(div, valueAt);
     bookContainer.appendChild(div);
   });
 }
@@ -79,15 +103,6 @@ function createBook() {
 function removeBook(element) {
   myLibrary.splice(element.target.dataset.book, 1);
   createBook();
-}
-
-// call the change change read status function
-function changeReadStatus(valueAt) {
-  if (myLibrary[valueAt].read === "Yes") {
-    myLibrary[valueAt].read = "No";
-  } else if (myLibrary[valueAt].read === "No") {
-    myLibrary[valueAt].read = "Yes";
-  }
 }
 
 // clear the modal box
