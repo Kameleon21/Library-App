@@ -6,7 +6,6 @@ const authorName = document.getElementById("author");
 const pageNumber = document.getElementById("number");
 const newBookBtn = document.getElementById("bookBtn");
 const bookContainer = document.getElementById("content");
-let count = 0;
 
 // constructor
 class Book {
@@ -39,7 +38,6 @@ function addBookToLib() {
   myLibrary.push(word);
 }
 
-
 // create each book
 function createBook() {
   bookContainer.textContent = "";
@@ -49,39 +47,48 @@ function createBook() {
     let title = document.createElement("h2");
     let author = document.createElement("p");
     let pages = document.createElement("p");
+    let haveRead = document.createElement("button");
     let remove = document.createElement("button");
-    remove.addEventListener("click", removeBook);
     // assign values to them
     title.textContent = element.title;
     author.textContent = element.author;
     pages.textContent = element.numPages + " pages";
+    haveRead.textContent = element.read;
     remove.textContent = "Delete";
     // assigning dataset to remove button
+    haveRead.dataset.bookRead = myLibrary.indexOf(element);
     remove.dataset.ID = myLibrary.indexOf(element);
+    let valueAt = remove.dataset.ID;
     remove.addEventListener("click", removeBook);
+    haveRead.addEventListener("click", () => {
+      myLibrary[valueAt].changeRead(valueAt);
+      console.log(myLibrary[valueAt].read);
+    });
     // add class to the book Cards
     div.classList.add("book");
     // Append to the books to cont
     div.appendChild(title);
     div.appendChild(author);
     div.appendChild(pages);
+    div.appendChild(haveRead);
     div.appendChild(remove);
     bookContainer.appendChild(div);
   });
 }
-// function displayBooks() {
-//   myLibrary.forEach((element) => {
-//     createBook(element);
-//   });
-// }
 
 function removeBook(element) {
   myLibrary.splice(element.target.dataset.book, 1);
   createBook();
 }
 
-// display whats in the array
-// function create() {}
+// call the change change read status function
+function changeReadStatus(valueAt) {
+  if (myLibrary[valueAt].read === "Yes") {
+    myLibrary[valueAt].read = "No";
+  } else if (myLibrary[valueAt].read === "No") {
+    myLibrary[valueAt].read = "Yes";
+  }
+}
 
 // clear the modal box
 function clearModal() {
