@@ -9,6 +9,9 @@ const bookContainer = document.getElementById("content");
 const readInfo = document.getElementById("readInfo");
 const unreadInfo = document.getElementById("unreadInfo");
 
+// Lib array
+const myLibrary = [];
+
 // constructor
 class Book {
   constructor(title, author, numPages, read) {
@@ -27,9 +30,6 @@ class Book {
   }
 }
 
-// Lib array
-const myLibrary = [];
-
 // functions to add books to array
 function addBookToLib() {
   const title = Name.value;
@@ -40,7 +40,7 @@ function addBookToLib() {
   myLibrary.push(word);
 }
 
-//Displays the amount of read and unread books
+// Displays the amount of read and unread books
 function displayReadData() {
   const readBooks = document.querySelectorAll(`.read`);
   const unreadBooks = document.querySelectorAll(`.unread`);
@@ -49,22 +49,28 @@ function displayReadData() {
 }
 
 // add color to books if read or unread
-function changeClr(div, valueAt) {
+function changeClr(div, valueAt, btn) {
   if (myLibrary[valueAt].read === "Read") {
     div.classList.add("read");
+    btn.classList.add("readBtn");
   } else if (myLibrary[valueAt].read === "Unread") {
     div.classList.add("unread");
+    btn.classList.add("unreadBtn");
   }
 }
 
 // change book color if book status changes
-function ifRead(div) {
+function ifRead(div, btn) {
   if (div.classList.contains("read")) {
     div.classList.remove("read");
     div.classList.add("unread");
+    btn.classList.remove("readBtn");
+    btn.classList.add("unreadBtn");
   } else if (div.classList.contains("unread")) {
     div.classList.remove("unread");
     div.classList.add("read");
+    btn.classList.remove("unreadBtn");
+    btn.classList.add("readBtn");
   }
   displayReadData();
 }
@@ -74,31 +80,32 @@ function createBook() {
   bookContainer.textContent = "";
   myLibrary.forEach((element) => {
     // create the elements
-    let div = document.createElement("div");
-    let title = document.createElement("h2");
-    let author = document.createElement("p");
-    let pages = document.createElement("p");
-    let haveRead = document.createElement("button");
-    let remove = document.createElement("button");
+    const div = document.createElement("div");
+    const title = document.createElement("h2");
+    const author = document.createElement("p");
+    const pages = document.createElement("p");
+    const haveRead = document.createElement("button");
+    const remove = document.createElement("button");
     // assign values to them
     title.textContent = element.title;
     author.textContent = element.author;
-    pages.textContent = element.numPages + " pages";
+    pages.textContent = `${element.numPages} pages`;
     haveRead.textContent = element.read;
     remove.textContent = "Delete";
     // assigning dataset to remove button
     haveRead.dataset.bookRead = myLibrary.indexOf(element);
     remove.dataset.ID = myLibrary.indexOf(element);
-    let valueAt = remove.dataset.ID;
+    const valueAt = remove.dataset.ID;
     // adding EventListeners to each book
     remove.addEventListener("click", removeBook);
     haveRead.addEventListener("click", () => {
       myLibrary[valueAt].changeRead(valueAt);
       haveRead.textContent = myLibrary[valueAt].read;
-      ifRead(div);
+      ifRead(div, haveRead);
     });
     // add class to the book Cards
     div.classList.add("book");
+    haveRead.classList.add("numberBtn");
     // Append to the books to cont
     div.appendChild(title);
     div.appendChild(author);
@@ -106,7 +113,7 @@ function createBook() {
     div.appendChild(haveRead);
     div.appendChild(remove);
     // function to add color
-    changeClr(div, valueAt);
+    changeClr(div, valueAt, haveRead);
     bookContainer.appendChild(div);
   });
 }
@@ -138,7 +145,7 @@ cancelBtn.addEventListener("click", () => {
 });
 
 // Run the method to add new object and pass it into the array
-newBookBtn.addEventListener("click", (e) => {
+newBookBtn.addEventListener("click", () => {
   addBookToLib();
   createBook();
   clearModal();

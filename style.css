@@ -4,6 +4,7 @@
   --clr1: #ff6d00;
   --clr2: #6798c0;
   --clr3: #f0ead2;
+  --clr4: #f87171;
 }
 
 * {
@@ -28,16 +29,22 @@ body {
 
 .top-contain {
   grid-column: span 5;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--clr3);
+  height: fit-content;
+  text-align: center;
+  opacity: 0.85;
 }
 
 header {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 header h1 {
   letter-spacing: 2px;
-  background-color: var(--clr3);
   width: fit-content;
   padding: 5px;
   border-radius: 5px;
@@ -57,14 +64,15 @@ header h1 {
 
 aside {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 8rem;
 }
 
 aside h3 {
   margin-top: 1rem;
   padding: 5px;
-  background-color: var(--clr3);
   height: fit-content;
+  letter-spacing: 1.5px;
 }
 
 /* main books */
@@ -126,17 +134,16 @@ main {
 
 /* if read */
 .read {
-  border-left: 8px solid blue;
+  border-left: 8px solid var(--clr2);
 }
 
 /* if not read */
 
 .unread {
-  border-left: 8px solid red;
+  border-left: 8px solid var(--clr4);
 }
 
 /* delete btn and is Read button */
-.numberBtn,
 .haveRead {
   width: 6rem;
   padding: 0px 8px;
@@ -148,6 +155,19 @@ main {
 
 .numberBtn {
   width: 6.5rem;
+  padding: 0 8px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.readBtn {
+  background-color: var(--clr2);
+  border-color: var(--clr2);
+}
+
+.unreadBtn {
+  background-color: var(--clr4);
+  border-color: var(--clr4);
 }
 
 /* Responsiveness */
@@ -184,7 +204,7 @@ main {
 
   .book {
     width: 180px;
-    height: 155px;
+    height: 160px;
     padding: 0.9rem;
   }
 
