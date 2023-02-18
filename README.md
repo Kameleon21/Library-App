@@ -19,6 +19,7 @@ whats inside the array after a user has deleted an object from it
 
 ## How To Use The Project
 
+![Library-App](https://user-images.githubusercontent.com/92760571/219881122-28856ba4-799a-4132-8284-05fca2f663ce.gif)
 
 ## Contributing 
 
