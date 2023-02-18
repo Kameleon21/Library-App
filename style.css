@@ -26,11 +26,13 @@ body {
   grid-template-columns: repeat(4, 1fr);
 }
 
+.top-contain {
+  grid-column: span 5;
+}
+
 header {
-  grid-column: 2/5;
   display: flex;
   flex-direction: column;
-  margin-top: 0.5rem;
 }
 
 header h1 {
@@ -40,6 +42,7 @@ header h1 {
   padding: 5px;
   border-radius: 5px;
   margin-bottom: 5px;
+  margin-top: 1rem;
 }
 
 #add {
@@ -49,13 +52,19 @@ header h1 {
   border-color: var(--clr1);
   border-radius: 3px;
   font-weight: 570;
+  letter-spacing: 1px;
 }
 
 aside {
-  grid-row: 1/2;
   display: flex;
   justify-content: space-around;
-  margin-top: 0.5rem;
+}
+
+aside h3 {
+  margin-top: 1rem;
+  padding: 5px;
+  background-color: var(--clr3);
+  height: fit-content;
 }
 
 /* main books */
@@ -143,39 +152,53 @@ main {
 
 /* Responsiveness */
 @media screen and (max-width: 500px) {
+  body {
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    object-fit: cover;
+  }
+
+  .top-contain {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--clr3);
+    height: fit-content;
+  }
+
+  header {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   header h1 {
     font-size: 1.4rem;
+  }
+
+  aside h3 {
+    letter-spacing: 2px;
   }
 
   .book {
     width: 180px;
     height: 155px;
-    place-self: center;
     padding: 0.9rem;
   }
 
-  aside {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 4rem;
-    font-size: 0.9rem;
-  }
-
-  .book h4 {
-    font-size: 0.9rem;
-    margin-left: 5px;
+  .book h2 {
+    font-size: 1.3rem;
   }
 
   .book p {
-    font-size: 0.7rem;
-    margin-left: 5px;
+    font-size: 0.8rem;
   }
 
   .addModal {
     width: 210px;
-    height: 300px;
+    height: 280px;
   }
 
   main {

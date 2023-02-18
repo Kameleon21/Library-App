@@ -6,6 +6,8 @@ const authorName = document.getElementById("author");
 const pageNumber = document.getElementById("number");
 const newBookBtn = document.getElementById("bookBtn");
 const bookContainer = document.getElementById("content");
+const readInfo = document.getElementById("readInfo");
+const unreadInfo = document.getElementById("unreadInfo");
 
 // constructor
 class Book {
@@ -38,6 +40,14 @@ function addBookToLib() {
   myLibrary.push(word);
 }
 
+//Displays the amount of read and unread books
+function displayReadData() {
+  const readBooks = document.querySelectorAll(`.read`);
+  const unreadBooks = document.querySelectorAll(`.unread`);
+  readInfo.textContent = `Read ${readBooks.length}`;
+  unreadInfo.textContent = `Unread ${unreadBooks.length}`;
+}
+
 // add color to books if read or unread
 function changeClr(div, valueAt) {
   if (myLibrary[valueAt].read === "Read") {
@@ -56,6 +66,7 @@ function ifRead(div) {
     div.classList.remove("unread");
     div.classList.add("read");
   }
+  displayReadData();
 }
 
 // create each book
@@ -103,6 +114,7 @@ function createBook() {
 function removeBook(element) {
   myLibrary.splice(element.target.dataset.book, 1);
   createBook();
+  displayReadData();
 }
 
 // clear the modal box
@@ -130,5 +142,6 @@ newBookBtn.addEventListener("click", (e) => {
   addBookToLib();
   createBook();
   clearModal();
+  displayReadData();
   modal.style.visibility = "hidden";
 });

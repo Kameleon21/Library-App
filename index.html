@@ -9,20 +9,22 @@
   </head>
   <body>
     <div class="container">
-      <header>
-        <h1>Welcome to your library</h1>
-        <button id="add">New Book</button>
-      </header>
+      <div class="top-contain">
+        <header>
+          <h1>Welcome To Your library</h1>
+          <button id="add">New Book</button>
+        </header>
 
-      <!-- sidebar -->
-      <aside>
-        <h3>Read</h3>
-        <h3>Unread</h3>
-      </aside>
+        <!-- sidebar -->
+        <aside id="sidebar">
+          <h3 id="readInfo">Read</h3>
+          <h3 id="unreadInfo">Unread</h3>
+        </aside>
+      </div>
 
-      <main id="content">
-        <!-- modal pop up  -->
-      </main>
+      <main id="content"></main>
+
+      <!-- modal pop up  -->
       <div class="addModal">
         <h3>Add a Book</h3>
         <form method="post" id="newForm">
