@@ -152,3 +152,16 @@ newBookBtn.addEventListener("click", () => {
   displayReadData();
   modal.style.visibility = "hidden";
 });
+
+// random books added to populate the screen
+const randomBook = () => {
+  const harryPotter = new Book("Harry Potter", "J.K Rowling", 450, "Unread");
+  const theHobbit = new Book("The Hobbit", "J.R.R Tolkien", 500, "Read");
+  const legend = new Book("Legend", "Mary Lu", 350, "Unread");
+  const theSpook = new Book("The Spook", "Joseph Delaney", 400, "Read");
+  myLibrary.push(harryPotter, theHobbit, legend, theSpook);
+  createBook();
+  displayReadData();
+};
+
+randomBook();
