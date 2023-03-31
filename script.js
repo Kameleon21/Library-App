@@ -119,7 +119,7 @@ function createBook() {
 }
 
 function removeBook(element) {
-  myLibrary.splice(element.target.dataset.book, 1);
+  myLibrary.splice(element.target.dataset.ID, 1);
   createBook();
   displayReadData();
 }
