@@ -2,6 +2,9 @@
 
 # Library-App
 
+## Live Link
+https://kameleon21.github.io/Library-App/
+
 ## Description
 
 The aim of this project was to learn how objects are stored in arrays and using a basic CRUD system
