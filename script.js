@@ -1,13 +1,11 @@
 const addBtn = document.getElementById("add");
 const modal = document.querySelector(".addModal");
 const cancelBtn = document.getElementById("cancel");
-const Name = document.getElementById("Name");
-const authorName = document.getElementById("author");
-const pageNumber = document.getElementById("number");
 const newBookBtn = document.getElementById("bookBtn");
 const bookContainer = document.getElementById("content");
 const readInfo = document.getElementById("readInfo");
 const unreadInfo = document.getElementById("unreadInfo");
+const form = document.getElementById("newForm");
 
 // Lib array
 const myLibrary = [];
@@ -32,9 +30,9 @@ class Book {
 
 // functions to add books to array
 function addBookToLib() {
-  const title = Name.value;
-  const author = authorName.value;
-  const numberPage = pageNumber.value;
+  const title = document.getElementById("Name").value;
+  const author = document.getElementById("author").value;
+  const numberPage = document.getElementById("number").value;
   const read = document.querySelector("input[name=read]:checked").value;
   const word = new Book(title, author, numberPage, read);
   myLibrary.push(word);
@@ -124,33 +122,31 @@ function removeBook(element) {
   displayReadData();
 }
 
-// clear the modal box
-function clearModal() {
-  Name.value = " ";
-  authorName.value = " ";
-  pageNumber.value = 0;
-  document.querySelector('input[name="read"]:checked').checked = false;
-}
-
 // display the modal
 addBtn.addEventListener("click", () => {
   modal.style.visibility = "visible";
-  Name.focus();
+  const title = document.getElementById("Name");
+  title.focus();
 });
 
 // hide modal and call clear modal function
 cancelBtn.addEventListener("click", () => {
   modal.style.visibility = "hidden";
-  clearModal();
+  form.reset();
 });
 
 // Run the method to add new object and pass it into the array
-newBookBtn.addEventListener("click", () => {
+newBookBtn.addEventListener("click", (event) => {
   addBookToLib();
   createBook();
-  clearModal();
   displayReadData();
   modal.style.visibility = "hidden";
+});
+
+// prevent the form from being sent to the server-side and reset it
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  form.reset();
 });
 
 // random books added to populate the screen

@@ -28,22 +28,22 @@
       <div class="addModal">
         <h3>Add a Book</h3>
         <form method="post" id="newForm">
-          <label for="Name">Book Name</label>
-          <input type="text" name="Name" id="Name" />
-          <label for="author">Author</label>
-          <input type="text" name="author" id="author" />
-          <label for="numPages">Number of Pages</label>
-          <input type="number" min="0" id="number" />
+          <label for="Name">Book Name:</label>
+          <input type="text" name="Name" id="Name" required />
+          <label for="author">Author:</label>
+          <input type="text" name="author" id="author" required />
+          <label for="numPages">Number of Pages:</label>
+          <input type="number" min="0" id="number" name="numPages" required />
           <label for="read">Have you Read it?</label>
           <div class="answer-container">
             <input type="radio" name="read" value="Read" /> Read
             <input type="radio" name="read" value="Unread" /> Unread
           </div>
+          <div class="button-contain">
+            <button type="submit" class="newBook" id="bookBtn">Add Book</button>
+            <button id="cancel" class="newBook">Cancel</button>
+          </div>
         </form>
-        <div class="button-contain">
-          <button class="newBook" id="bookBtn" type="submit">Add Book</button>
-          <button id="cancel" class="newBook">Cancel</button>
-        </div>
       </div>
     </div>
 
